@@ -211,6 +211,20 @@ func decodeAttachedFileFromPart(
 ) (AttachedFile, error) {
 	var afl AttachedFile
 
+	rawCid := part.Header.Get("Content-Id")
+	if rawCid != "" {
+		cid, err := decodeHeader(part.Header.Get("Content-Id"))
+		if err != nil {
+			return afl, fmt.Errorf(
+				"letters.decoders.decodeInlineFile: "+
+					"cannot decode Content-ID header for inline attachment: %w",
+				err,
+			)
+		}
+		cid = strings.Trim(cid, "<>")
+		afl.ContentID = &cid
+	}
+
 	decoded, err := decodeContent(part, nil, cte)
 	if err != nil {
 		return afl, fmt.Errorf(
