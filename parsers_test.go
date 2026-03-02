@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mnako/letters"
+	"github.com/Pharnem/letters"
 )
 
 type dateParsingTestCase struct {
