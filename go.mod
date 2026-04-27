@@ -1,4 +1,4 @@
-module github.com/Pharnem/letters
+module github.com/mnako/letters
 
 go 1.24.0
 
