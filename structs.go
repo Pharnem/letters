@@ -572,6 +572,7 @@ type InlineFile struct {
 }
 
 type AttachedFile struct {
+	ContentID          string
 	ContentType        ContentTypeHeader
 	ContentDisposition ContentDispositionHeader
 	Data               []byte
