@@ -191,6 +191,9 @@ func decodeAttachmentFileFromBody(
 		)
 	}
 
+	if len(headers.ExtraHeaders["Content-Id"]) > 0 {
+		afl.ContentID = headers.ExtraHeaders["Content-Id"][0]
+	}
 	afl.ContentType = headers.ContentType
 	afl.ContentDisposition = headers.ContentDisposition
 	afl.Data, err = io.ReadAll(decoded)
@@ -218,6 +221,13 @@ func decodeAttachedFileFromPart(
 				"cannot decode attached file content: %w",
 			err,
 		)
+	}
+
+	cid, err := decodeHeader(part.Header.Get("Content-Id"))
+	if err != nil {
+		afl.ContentID = ""
+	} else {
+		afl.ContentID = strings.Trim(cid, "<>")
 	}
 
 	afl.ContentType, err = ParseContentTypeHeader(
